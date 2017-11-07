@@ -6,8 +6,7 @@ var collage;
 var direction = 90; //circle initial direction moving down
 
 function setup() {
-  createCanvas(800,400);
-  
+  createCanvas(windowWidth, windowHeight);
   //create the sprites
   collage = createSprite(600, 200, 50, 100);
   collage.addAnimation("assets/collage_001.png", "assets/collage_002.png", "assets/collage_003.png", "assets/collage_004.png");
@@ -24,8 +23,11 @@ function setup() {
 }
 
 function draw() {
-  background(255,255,255);  
   
+var chickenX = map(inData, 0, 255, 0, width);
+
+  background(255,255,255);  
+  console.log(chickenX);
   //aside of setting the velocity directly you can move a sprite
   //by providing a speed and an angle
   direction += 2;
@@ -36,7 +38,7 @@ function draw() {
   //uncomment this
   //circle.rotateToDirection = true;
   
-  collage.position.x = inData;
+  collage.position.x = chickenX;
   collage.position.y = mouseY;
   //since the force keeps incrementing the speed you can 
   //set a limit to it with maxSpeed
