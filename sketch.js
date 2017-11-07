@@ -1,6 +1,7 @@
 var serial;          // variable to hold an instance of the serialport library
 var portName = '/dev/cu.usbmodem1421';  // fill in your serial port name here
 var inData;                             // for incoming serial data 
+
 //Moving sprites
 var collage;
 var direction = 90; //circle initial direction moving down
@@ -24,7 +25,8 @@ function setup() {
 
 function draw() {
   
-var chickenX = map(inData, 0, 255, 0, width);
+var chickenX = map(inData, 0, 255, 0, 800);
+var chickenY = map(inData, 0, 255, 0, 800);
 
   background(255,255,255);  
   console.log(chickenX);
@@ -32,17 +34,17 @@ var chickenX = map(inData, 0, 255, 0, width);
   //by providing a speed and an angle
   direction += 2;
   //speed, angle
-  collage.setSpeed(3, direction);
+  collage.setSpeed(1, direction);
   
   //you can rotate the sprite according the directio it is moving
   //uncomment this
   //circle.rotateToDirection = true;
   
   collage.position.x = chickenX;
-  collage.position.y = mouseY;
+  collage.position.y = chickenY;
   //since the force keeps incrementing the speed you can 
   //set a limit to it with maxSpeed
-  collage.maxSpeed = 5;
+  collage.maxSpeed = 1;
   
   //draw the sprite
   drawSprites();
