@@ -13,7 +13,6 @@ function setup() {
   collage.addAnimation("assets/collage_001.png", "assets/collage_002.png", "assets/collage_003.png", "assets/collage_004.png");
 
   serial = new p5.SerialPort();       // make a new instance of the serialport library
-  serial.on('list', printList);  // set a callback function for the serialport list event
   serial.on('connected', serverConnected); // callback for connecting to the server
   serial.on('open', portOpen);        // callback for the port opening
   serial.on('data', serialEvent);     // callback for when new data arrives
@@ -37,9 +36,8 @@ function draw() {
   //uncomment this
   //circle.rotateToDirection = true;
   
-  //or by applying a force toward a point
-  //force (acceleration), pointx, pointy
-  collage.attractionPoint(.2, inData, 100);
+  collage.position.x = inData;
+  collage.position.y = mouseY;
   //since the force keeps incrementing the speed you can 
   //set a limit to it with maxSpeed
   collage.maxSpeed = 5;
