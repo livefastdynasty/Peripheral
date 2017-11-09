@@ -1,8 +1,10 @@
+// GAY WITCHCRAFT BY TOMMY TING //
 var serial;          // variable to hold an instance of the serialport library
 var portName = '/dev/cu.usbmodem1421';  // fill in your serial port name here
 var inData;                             // for incoming serial data 
 //Moving sprites
 var body1, body2, body3, gem, eye1;
+      
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -72,3 +74,4 @@ function serialError(err) {
 function portClose() {
   console.log('The serial port closed.');
 }
+  
