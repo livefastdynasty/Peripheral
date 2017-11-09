@@ -1,8 +1,7 @@
-
+// GAY WITCHCRAFT BY TOMMY TING //
 var serial;          // variable to hold an instance of the serialport library
 var portName = '/dev/cu.usbmodem1421';  // fill in your serial port name here
 var inData;                             // for incoming serial data 
-var ardVal =[0,1]
 //Moving sprites
 var body1, body2, body3, gem, eye1;
       
@@ -14,8 +13,26 @@ function setup() {
   gem.addImage("normal", loadImage("assets/gem.png"));
   gem.addImage("eye", loadImage("assets/eye01.png"));
   
-  body1 = createSprite(400, 200);
-  body1.addImage(loadImage("assets/body01.png"))
+  body1 = createSprite(300, 170);
+  body1.addImage(loadImage("assets/stonehenge01.png"))
+  
+  body2 = createSprite(550, 100);
+  body2.addImage(loadImage("assets/stonehenge02.png"))
+  
+  body3 = createSprite(800, 120);
+  body3.addImage(loadImage("assets/stonehenge03.png"))
+  
+  body4 = createSprite(1050, 250);
+  body4.addImage(loadImage("assets/stonehenge04.png"))
+  
+  body6 = createSprite(480, 300);
+  body6.addImage(loadImage("assets/stonehenge06.png"))
+  
+  body5 = createSprite(750, 350);
+  body5.addImage(loadImage("assets/stonehenge05.png"))
+  
+  body7 = createSprite(300, 420);
+  body7.addImage(loadImage("assets/stonehenge07.png"))
 
   serial = new p5.SerialPort();       // make a new instance of the serialport library
   serial.on('connected', serverConnected); // callback for connecting to the server
@@ -28,35 +45,11 @@ function setup() {
   serial.open(portName);              // open a serial port
 }
 
-function serverConnected() {
-  console.log('connected to server.');
-}
- 
-function portOpen() {
-  console.log('the serial port opened.')
-}
- function serialEvent() {
-  inData = split( trim( currentString ), ',' );
-  if(data.length < 3){
-    return;
-  }
-
-  x = parseInt(map( data[0], 0, 1023, 0, width ));
-  y = parseInt(map( data[1], 0, 1023, 0, height ));
-}
- 
-function serialError(err) {
-  console.log('Something went wrong with the serial port. ' + err);
-}
- 
-function portClose() {
-  console.log('The serial port closed.');
-}
 function draw() {
   
-var gemX = map(ardVal[0], 0, 255, 0, width);
+var gemX = map(inData, 0, 255, 0, width);
 
-  background(255,255,255);  
+  background(255,182,193);  
   console.log(gemX);
   //aside of setting the velocity directly you can move a sprite
   //by providing a speed and an angle
@@ -78,5 +71,25 @@ var gemX = map(ardVal[0], 0, 255, 0, width);
   
   //draw the sprite
   drawSprites();
+}
+
+function serverConnected() {
+  console.log('connected to server.');
+}
+ 
+function portOpen() {
+  console.log('the serial port opened.')
+}
+ 
+function serialEvent() {
+  inData = Number(serial.read());
+}
+ 
+function serialError(err) {
+  console.log('Something went wrong with the serial port. ' + err);
+}
+ 
+function portClose() {
+  console.log('The serial port closed.');
 }
   
