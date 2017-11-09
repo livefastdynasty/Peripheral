@@ -56,7 +56,7 @@ function setup() {
   
   body5 = createSprite(1150, 400);
   body5.addImage("normal", loadImage("assets/body05.png"));
-  body5.addImage("jockstrap", loadImage("assets/jockstrap.png"));
+  body5.addImage("jockstrap", loadImage("assets/urinal.png"));
 
   serial = new p5.SerialPort();       // make a new instance of the serialport library
   serial.on('connected', serverConnected); // callback for connecting to the server
@@ -77,7 +77,7 @@ var gemX = map(inData, 0, 255, 0, width); //set the var so the data from arduino
   console.log(gemX); //to see if the potentiometer is reading
   
   //use the potentiometer to control the x-axis of the gem while the mouse controls the y
-  gem.position.x = mouseX;
+  gem.position.x = gemX;
   gem.position.y = mouseY;
   
   //set the sprites to change animation when on top of another
@@ -110,7 +110,7 @@ var gemX = map(inData, 0, 255, 0, width); //set the var so the data from arduino
 //when all objects overlap then load image of dionysus
 if ((body1.overlap(stonehenge4)) && (body2.overlap(stonehenge1)) && (body3.overlap(stonehenge2)) && (body4.overlap(stonehenge3)) && (body5.overlap(stonehenge5)))
     {
-    dionysus = createSprite(500,500);
+    dionysus = createSprite(640,290);
   dionysus.addImage(loadImage("assets/dionysus.png"));    
     }
                                                                                  
@@ -144,3 +144,4 @@ function serialError(err) {
 function portClose() {
   console.log('The serial port closed.');
 }
+  
