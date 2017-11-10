@@ -2,7 +2,9 @@
 
 var serial;          // variable to hold an instance of the serialport library
 var portName = '/dev/cu.usbmodem1421';  // fill in your serial port name here
-var inData;                             // for incoming serial data 
+//var inData;                             // for incoming serial data 
+var ardVal = [];  //array that will hold all values coming from arduino
+var serialStatus = 0;
 
 // sprites
 var body1, body2, body3, body4, body5, gem, stonehenge1, stonehenge2, stonehenge3, stonehenge4, stonehenge5, stonehenge6, stonehenge7, eye;
@@ -56,23 +58,27 @@ function setup() {
   
   body5 = createSprite(1150, 400);
   body5.addImage("normal", loadImage("assets/body05.png"));
-  body5.addImage("jockstrap", loadImage("assets/jockstrap.png"));
+  body5.addImage("jockstrap", loadImage("assets/urinal.png"));
 
-  serial = new p5.SerialPort();       // make a new instance of the serialport library
-  serial.on('connected', serverConnected); // callback for connecting to the server
-  serial.on('open', portOpen);        // callback for the port opening
-  serial.on('data', serialEvent);     // callback for when new data arrives
-  serial.on('error', serialError);    // callback for errors
-  serial.on('close', portClose);      // callback for the port closing
- 
-  serial.list();                      // list the serial ports
-  serial.open(portName);              // open a serial port
+   serial = new p5.SerialPort();     //create the serial port object
+  serial.open("/dev/cu.usbmodem1421"); //open the serialport. determined 
+  serial.on('open',ardCon);         //open the socket connection and execute the ardCon callback
+  serial.on('data',dataReceived);   //when data is received execute the dataReceived function
+}
+function draw(){
+  if (serialStatus == 1){
+    
+    game();
+    
+  }
 }
 
-function draw() {
+function game() {
+console.log("0: ", ardVal[0],"1: ", ardVal[1]);
   
-var gemX = map(inData, 0, 255, 0, width); //set the var so the data from arduino is used to control the x-axis, set to the whole width of canvas
-
+var gemX = map(ardVal[0], 0, 1023, 0, width); //set the var so the data from arduino is used to control the x-axis, set to the whole width of canvas
+var gemY = map(ardVal[1], 0, 1023, 0, height); //set the var so the data from arduino is used to control the x-axis, set to the whole width of canvas
+  
   background(255,182,193);  //background colour is pink
   console.log(gemX); //to see if the potentiometer is reading
   
@@ -110,7 +116,7 @@ var gemX = map(inData, 0, 255, 0, width); //set the var so the data from arduino
 //when all objects overlap then load image of dionysus
 if ((body1.overlap(stonehenge4)) && (body2.overlap(stonehenge1)) && (body3.overlap(stonehenge2)) && (body4.overlap(stonehenge3)) && (body5.overlap(stonehenge5)))
     {
-    dionysus = createSprite(500,500);
+    dionysus = createSprite(640,290);
   dionysus.addImage(loadImage("assets/dionysus.png"));    
     }
                                                                                  
@@ -125,23 +131,21 @@ if ((body1.overlap(stonehenge4)) && (body2.overlap(stonehenge1)) && (body3.overl
   drawSprites();
 }
 
-function serverConnected() {
-  console.log('connected to server.');
+function dataReceived()   //this function is called every time data is received
+{
+var rawData = serial.readStringUntil('\r\n'); //read the incoming string until it sees a newline
+    if(rawData.length>1)                      //check that there is something in the string
+    {                                         //values received in pairs  index,value
+      var incoming = rawData.split(",");      //split the string into components using the comma as a delimiter
+      for(var i=0;i<incoming.length;i++)
+      {
+      ardVal[i]=parseInt(incoming[i]);        //convert the values to ints and put them into the ardVal array
+      }
+    }
 }
  
-function portOpen() {
-  console.log('the serial port opened.')
+function ardCon()
+{
+  console.log("connected to the arduino");
+  serialStatus = 1;
 }
- 
-function serialEvent() {
-  inData = Number(serial.read());
-}
- 
-function serialError(err) {
-  console.log('Something went wrong with the serial port. ' + err);
-}
- 
-function portClose() {
-  console.log('The serial port closed.');
-}
-  
