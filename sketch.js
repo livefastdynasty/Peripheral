@@ -60,6 +60,7 @@ function setup() {
   body5.addImage("normal", loadImage("assets/body05.png"));
   body5.addImage("jockstrap", loadImage("assets/urinal.png"));
 
+
   serial = new p5.SerialPort();     //create the serial port object
   serial.open("/dev/cu.usbmodem1421"); //open the serialport. determined 
   serial.on('open',ardCon);         //open the socket connection and execute the ardCon callback
@@ -83,8 +84,8 @@ var gemY = map(ardVal[1], 0, 1023, 0, height); //set the var so the data from ar
   console.log(gemX); //to see if the potentiometer is reading
   
   //use the 1 potentiometer to control the x-axis of the gem while the other potentiometer controls the y
-  gem.position.x = mouseX;
-  gem.position.y = mouseY;
+  gem.position.x = gemX;
+  gem.position.y = gemY;
   
   //set the sprites to change animation when overlapped on the correct object
  
@@ -116,8 +117,8 @@ var gemY = map(ardVal[1], 0, 1023, 0, height); //set the var so the data from ar
 //when all sprites make the correct overlap then load image of Dionysus
 if ((body1.overlap(stonehenge4)) && (body2.overlap(stonehenge1)) && (body3.overlap(stonehenge2)) && (body4.overlap(stonehenge3)) && (body5.overlap(stonehenge5)))
     {
-    dionysus = createSprite(640,290);
-  dionysus.addImage(loadImage("assets/dionysus.png"));    
+  dionysus = createSprite(640,290)
+  dionysus.addAnimation("normal", "assets/dionysus01.png", "assets/dionysus02.png", "assets/dionysus03.png");  
     }
                                                                                  
   //  displacer so gem can move the bodies around
