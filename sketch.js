@@ -60,7 +60,7 @@ function setup() {
   body5.addImage("normal", loadImage("assets/body05.png"));
   body5.addImage("jockstrap", loadImage("assets/urinal.png"));
 
-   serial = new p5.SerialPort();     //create the serial port object
+  serial = new p5.SerialPort();     //create the serial port object
   serial.open("/dev/cu.usbmodem1421"); //open the serialport. determined 
   serial.on('open',ardCon);         //open the socket connection and execute the ardCon callback
   serial.on('data',dataReceived);   //when data is received execute the dataReceived function
@@ -82,11 +82,11 @@ var gemY = map(ardVal[1], 0, 1023, 0, height); //set the var so the data from ar
   background(255,182,193);  //background colour is pink
   console.log(gemX); //to see if the potentiometer is reading
   
-  //use the potentiometer to control the x-axis of the gem while the mouse controls the y
+  //use the 1 potentiometer to control the x-axis of the gem while the other potentiometer controls the y
   gem.position.x = mouseX;
   gem.position.y = mouseY;
   
-  //set the sprites to change animation when on top of another
+  //set the sprites to change animation when overlapped on the correct object
  
   if(body1.overlap(stonehenge4))
     body1.changeAnimation("poppers");
@@ -113,7 +113,7 @@ var gemY = map(ardVal[1], 0, 1023, 0, height); //set the var so the data from ar
   else
     body5.changeAnimation("normal");
   
-//when all objects overlap then load image of dionysus
+//when all sprites make the correct overlap then load image of Dionysus
 if ((body1.overlap(stonehenge4)) && (body2.overlap(stonehenge1)) && (body3.overlap(stonehenge2)) && (body4.overlap(stonehenge3)) && (body5.overlap(stonehenge5)))
     {
     dionysus = createSprite(640,290);
