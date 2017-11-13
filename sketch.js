@@ -9,8 +9,8 @@ var serialStatus = 0;
 // sprites
 var body1, body2, body3, body4, body5, gem, stonehenge1, stonehenge2, stonehenge3, stonehenge4, stonehenge5, stonehenge6, stonehenge7, eye;
       
-
-function setup() {
+//set up stonehenge scene
+function setup() { 
   
   createCanvas(windowWidth, windowHeight);
   
@@ -66,6 +66,8 @@ function setup() {
   serial.on('open',ardCon);         //open the socket connection and execute the ardCon callback
   serial.on('data',dataReceived);   //when data is received execute the dataReceived function
 }
+
+//serialStatus so that 1 starts the game function below
 function draw(){
   if (serialStatus == 1){
     
@@ -73,7 +75,7 @@ function draw(){
     
   }
 }
-
+//I put everything I had in the draw function into this new game function so that this function wouldn't run unless the serial connection was established, in the ardCon function below, the values of serialStatus switched from 0 to 1, the draw function above states that 1 starts the game function
 function game() {
 console.log("0: ", ardVal[0],"1: ", ardVal[1]);
   
@@ -144,7 +146,7 @@ var rawData = serial.readStringUntil('\r\n'); //read the incoming string until i
       }
     }
 }
- 
+//serialStatus changed from 0 to 1
 function ardCon()
 {
   console.log("connected to the arduino");
